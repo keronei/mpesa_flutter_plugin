@@ -22,11 +22,7 @@ public class AccessTokenInterceptor implements Interceptor {
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
 
-        Log.d("INTERCEPTOR CRED:" , mConsumerKey +" and " +mConsumerSecret );
-
         String keys = mConsumerKey + ":" + mConsumerSecret;
-
-        Log.d("AFT INTERCEPT", keys);
 
         Request request = chain.request().newBuilder()
                 .addHeader("Authorization", "Basic " + Base64.encodeToString(keys.getBytes(), Base64.NO_WRAP))
