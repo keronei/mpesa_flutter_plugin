@@ -12,7 +12,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Future<void> startCheckout({String userPhone, double amount}) async {
+  Future<void> startCheckout({String userPhone, int amount}) async {
     /*Set Consumer credentials before initializing the payment.
     You can get  them from https://developer.safaricom.co.ke/ by creating
     an account and an app.
@@ -54,13 +54,15 @@ class _MyAppState extends State<MyApp> {
     {
       "image": "image/shoe.jpg",
       "itemName": "Breathable Oxford Casual Shoes",
-      "price": 1.0
+      "price": 1
     }
   ];
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(primaryColor: Colors.brown[450],
+      primarySwatch: Colors.brown),
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Mpesa Payment plugin'),
@@ -68,9 +70,15 @@ class _MyAppState extends State<MyApp> {
         body: ListView.builder(
           itemBuilder: (BuildContext context, int index) {
             return Card(
+              elevation: 4.0,
               child: Container(
+                decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    color: Colors.brown),
                 height: MediaQuery.of(context).size.height * 0.35,
-                color: Colors.brown,
+                //color: Colors.brown,
                 child: Column(
                   children: <Widget>[
                     Container(
@@ -103,7 +111,7 @@ class _MyAppState extends State<MyApp> {
                                 borderRadius: BorderRadius.circular(10.0)),
                             onPressed: () {
                               startCheckout(
-                                  userPhone: "0739224261",
+                                  userPhone: "254--phone",
                                   amount: itemsOnSale[index]["price"]);
                             },
                             child: Text("Checkout"))
