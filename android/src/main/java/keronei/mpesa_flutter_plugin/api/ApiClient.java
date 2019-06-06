@@ -2,6 +2,7 @@ package keronei.mpesa_flutter_plugin.api;
 
 import android.util.Log;
 
+import keronei.mpesa_flutter_plugin.MpesaFlutterPlugin;
 import keronei.mpesa_flutter_plugin.api.interceptor.AccessTokenInterceptor;
 import keronei.mpesa_flutter_plugin.api.interceptor.AuthInterceptor;
 import keronei.mpesa_flutter_plugin.api.services.STKPushService;
@@ -29,7 +30,6 @@ public class ApiClient {
     private Retrofit retrofit;
     private boolean isDebug;
     private boolean isGetAccessToken;
-    private String mAuthToken = "0";
     private HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
 
     /**
@@ -44,22 +44,7 @@ public class ApiClient {
         return this;
     }
 
-    /**
-     * Helper method used to set the authenication Token
-     *
-     * @param authToken token from api
-     */
-    public ApiClient setAuthToken(String authToken) {
-        mAuthToken = authToken;
-        return this;
-    }
 
-    /**
-     * Getter for mAuthToken just to check if the token was actually set
-     */
-    public String getAuthToken() {
-        return mAuthToken;
-    }
 
     /**
      * Helper method used to determine if get token enpoint has been invoked. This should be called
@@ -94,9 +79,7 @@ public class ApiClient {
      * <p/>
      * When building, sets the endpoint and a {@link HttpLoggingInterceptor} which adds the API key as query param.
      */
-    private Retrofit getRestAdapter(String url, String mConsumerKey, String mConsumerSecret) {
-        Log.d("TOKEN A: ", "Here is your token "+mAuthToken);
-
+    private Retrofit getRestAdapter(String url, String mConsumerKey, String mConsumerSecret, String authToken) {
         Retrofit.Builder builder = new Retrofit.Builder();
         builder.baseUrl(url);
         builder.addConverterFactory(GsonConverterFactory.create());
@@ -111,14 +94,14 @@ public class ApiClient {
             okhttpBuilder.addInterceptor(new AccessTokenInterceptor(mConsumerKey, mConsumerSecret));
         }
 
-        if (mAuthToken != null && !mAuthToken.isEmpty()) {
-            okhttpBuilder.addInterceptor(new AuthInterceptor(mAuthToken));
+        if (!authToken.isEmpty()) {
+            okhttpBuilder.addInterceptor(new AuthInterceptor(authToken));
+
         }
 
         builder.client(okhttpBuilder.build());
 
         retrofit = builder.build();
-        Log.d("FINAL: ", "Here is your final token "+mAuthToken);
 
         return retrofit;
     }
@@ -128,8 +111,8 @@ public class ApiClient {
      *
      * @return STKPushService Service.
      */
-    public STKPushService mpesaService(String url, String mConsumerKey, String mConsumerSecret) {
-        return getRestAdapter(url, mConsumerKey, mConsumerSecret).create(STKPushService.class);
+    public STKPushService mpesaService(String url, String mConsumerKey, String mConsumerSecret, String authToken) {
+        return getRestAdapter(url, mConsumerKey, mConsumerSecret, authToken).create(STKPushService.class);
     }
 
 }
