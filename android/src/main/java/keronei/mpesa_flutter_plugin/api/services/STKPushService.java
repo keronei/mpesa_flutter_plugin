@@ -18,6 +18,11 @@
 
 package keronei.mpesa_flutter_plugin.api.services;
 
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import keronei.mpesa_flutter_plugin.api.model.AccessToken;
 import keronei.mpesa_flutter_plugin.api.model.STKPush;
 import retrofit2.Call;
@@ -31,7 +36,7 @@ import retrofit2.http.POST;
 
 public interface STKPushService {
     @POST("mpesa/stkpush/v1/processrequest")
-    Call<STKPush> sendPush(@Body STKPush stkPush);
+    Call<Object> sendPush(@Body STKPush stkPush);
 
     @GET("jobs/pending")
     Call<STKPush> getTasks();
