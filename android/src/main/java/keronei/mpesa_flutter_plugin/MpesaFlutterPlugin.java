@@ -1,7 +1,7 @@
 package keronei.mpesa_flutter_plugin;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
+
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -12,11 +12,17 @@ import keronei.mpesa_flutter_plugin.api.ApiClient;
 import keronei.mpesa_flutter_plugin.api.model.AccessToken;
 import keronei.mpesa_flutter_plugin.api.model.STKPush;
 import keronei.mpesa_flutter_plugin.helper.Utils;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
+import com.google.gson.*;
+
+
 //timing libs
+import java.lang.reflect.Array;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -30,6 +36,8 @@ public class MpesaFlutterPlugin implements MethodCallHandler {
     private String mConsumerKeyVar;
     private String mConsumerSecretVar;
     private String mAuthToken = "";
+
+    private Boolean mShouldDebugByDefault = false;
 
     //timers
     static int interval = 3550; //should be 3599 but for benefit of doubt.
@@ -85,8 +93,7 @@ public class MpesaFlutterPlugin implements MethodCallHandler {
 
                 try {
                     if (response.isSuccessful()) {
-                        String receivedToken = response.body().accessToken;
-                        mAuthToken = receivedToken;
+                        mAuthToken = response.body().accessToken;
                         startTimer();
                         result.success(true);
                     } else {
@@ -96,14 +103,14 @@ public class MpesaFlutterPlugin implements MethodCallHandler {
                     }
 
                 } catch (Exception e) {
-                    result.error("EXCEPTION", e.getMessage(), null);
+                    result.error("EXCEPTION-On-TOKEN-REQUEST", e.getMessage(), null);
                 }
 
             }
 
             @Override
             public void onFailure(@NonNull Call<AccessToken> call, @NonNull Throwable t) {
-                result.success(t.toString());
+                result.error("Failed on token", t.toString(), null);
             }
         });
     }
@@ -111,7 +118,7 @@ public class MpesaFlutterPlugin implements MethodCallHandler {
     @Override
     public void onMethodCall(MethodCall call, final Result result) {
         mApiClient = new ApiClient();
-        mApiClient.setIsDebug(true); //Set True to enable logging, false to disable.
+        mApiClient.setIsDebug(mShouldDebugByDefault); //Set True to enable logging, false to disable.
 
         if (call.method.equals("setConsumerKey")) {
             if (call.hasArgument("consumerKey")) {
@@ -136,6 +143,10 @@ public class MpesaFlutterPlugin implements MethodCallHandler {
                 //there's a previous token, reply OK
                 result.success(true);
             }
+        } else if (call.method.equals("setDebugMode")) {
+
+            mShouldDebugByDefault = call.argument("mode");
+
         } else if (call.method.equals("InitPayment")) {
         /*Initialise the payment and send the response to the app:
            MPESA will reply with the following if all variables were accepted(
@@ -201,33 +212,39 @@ public class MpesaFlutterPlugin implements MethodCallHandler {
 
             mApiClient.setGetAccessToken(false);
 
-            mApiClient.mpesaService(mBaseUrl, mConsumerKeyVar, mConsumerSecretVar, mAuthToken).sendPush(stkPush).enqueue(new Callback<STKPush>() {
+            mApiClient.mpesaService(mBaseUrl, mConsumerKeyVar, mConsumerSecretVar, mAuthToken).sendPush(stkPush).enqueue(new Callback<Object>() {
                 @Override
-                public void onResponse(@NonNull Call<STKPush> call, @NonNull Response<STKPush> response) {
+                public void onResponse(@NonNull Call call, @NonNull Response response) {
+
 
                     try {
                         if (response.isSuccessful()) {
-                            result.success(response.body());
+                            //Convert the result to JSON for consistency.
+                            Object sentResult = response.body();
+                            Gson revertedResult = new Gson();
+                            String jsoniFied = revertedResult.toJson(sentResult);
+                            result.success(jsoniFied);
+
 
                         } else {
+                            //return Stringified format of response body.
 
-                            String responseBodyStringError = response.errorBody().string();
-                            //To avoid exception issues, render success with the error
+                            ResponseBody x = response.errorBody();
+                            result.success(x != null ? x.string() : "Bad error occurred.");
 
-                            result.success(responseBodyStringError != null ?
-                                    responseBodyStringError : "Unknown error occurred.");
 
                         }
                     } catch (Exception e) {
-                        result.error("EXCEPTION", e.toString(), null);
+                        //throw an exception
+                        result.error("EXCEPTION-On-PAYMENT", e.toString(), null);
 
                     }
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<STKPush> call, @NonNull Throwable t) {
+                public void onFailure(@NonNull Call call, @NonNull Throwable t) {
 
-                    result.error("FAILED", t.getMessage(), null);
+                    result.error("Failed on payment", t.getMessage(), null);
                 }
             });
 
