@@ -135,7 +135,7 @@ From here, it's now simpler to have it on your app.
                                           
                                           {
                                           "Name": "PhoneNumber",
-                                          "Value": 254710---574
+                                          "Value": 254710xxx574
                                           }
                                       ]
               
@@ -169,7 +169,7 @@ case failure of a transaction, this is a sample of your result:
 That's what in the docs in summary.
 
 ## Contributing
-This plugin was build using [this](https://github.com/safaricom/LNMOnlineAndroidSample) project as the reference. Pull Requests are welcomed this plugin project on [GitHub](https://github.com/keronei/mpesa_flutter_plugin/).
+This plugin was build using [this](https://github.com/safaricom/LNMOnlineAndroidSample) project as the reference. Pull Requests are welcomed to this plugin project on [GitHub](https://github.com/keronei/mpesa_flutter_plugin/).
 
 
 
