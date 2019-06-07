@@ -1,8 +1,8 @@
 name: mpesa_flutter_plugin
-description: Use this plugin to implement Mpesa STK Push.
+description: Use this plugin to implement Lipa Na MPESA Online.
 version: 0.0.1
-author:
-homepage:
+author: Keronei Lincoln <lincolnkeronei95@gmail.com>
+homepage: https://github.com/keronei/mpesa_flutter_plugin
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
