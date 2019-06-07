@@ -6,7 +6,7 @@ Use this plugin to implement Lipa Na MPESA Online.
 
 ### Credentials
 
-1. Create an account on the [Safaricom Developer Portal] (https://developer.safaricom.co.ke/)
+1. Create an account on the [Safaricom Developer Portal](https://developer.safaricom.co.ke/)
 2. Create a Lipa na MPESA Online App
 3. Get your keys -> `ConsumerKey` and `ConsumerSecret`
 
@@ -85,7 +85,7 @@ From here, it's now simpler to have it on your app.
   
   ```json
   {
-      "MerchantRequestID": "1466 - 405147 - 1"
+      "MerchantRequestID": "1466 - 405147 - 1",
       "CheckoutRequestID" : "ws_CO_DMZ_370754209_06062019172849964",
       "ResponseCode" : "0",
       "ResponseDescription": "Success.Request accepted for processing",
@@ -135,7 +135,7 @@ From here, it's now simpler to have it on your app.
                                           
                                           {
                                           "Name": "PhoneNumber",
-                                          "Value": 254710***574
+                                          "Value": 254710---574
                                           }
                                       ]
               
@@ -169,7 +169,7 @@ case failure of a transaction, this is a sample of your result:
 That's what in the docs in summary.
 
 ## Contributing
-This plugin was build using [this](https://github.com/safaricom/LNMOnlineAndroidSample) project as the reference. Pull Requests are welcomed this project on GitHub.
+This plugin was build using [this](https://github.com/safaricom/LNMOnlineAndroidSample) project as the reference. Pull Requests are welcomed this plugin project on [GitHub](https://github.com/keronei/mpesa_flutter_plugin/).
 
 
 
