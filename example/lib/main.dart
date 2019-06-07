@@ -4,7 +4,16 @@ import 'dart:async';
 import 'package:mpesa_flutter_plugin/mpesa_flutter_plugin.dart'; //Import the plugin
 import './global_keys.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  /*Set Consumer credentials before initializing the payment.
+    You can get  them from https://developer.safaricom.co.ke/ by creating
+    an account and an app.
+     */
+  MpesaFlutterPlugin.setConsumerKey(mConsumerKey);
+  MpesaFlutterPlugin.setConsumerSecret(mConsumerSecret);
+  //MpesaFlutterPlugin.enableDebugModeWithLogging(true);
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -13,13 +22,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Future<void> startCheckout({String userPhone, int amount}) async {
-    /*Set Consumer credentials before initializing the payment.
-    You can get  them from https://developer.safaricom.co.ke/ by creating
-    an account and an app.
-     */
-    MpesaFlutterPlugin.setConsumerKey(mConsumerKey);
-    MpesaFlutterPlugin.setConsumerSecret(mConsumerSecret);
-
     //Preferably expect 'dynamic', response type varies a lot!
     dynamic transactionInitialisation;
     //Better wrap in a try-catch for lots of reasons.
@@ -32,7 +34,7 @@ class _MyAppState extends State<MyApp> {
               amount: amount.toString(),
               partyA: userPhone,
               partyB: "174379",
-              callBackURL: "https://integrate-payment.herokuapp.com/callback",
+              callBackURL: "https://url-to-post",
               accountReference: "shoe",
               phoneNumber: userPhone,
               baseUrl: "https://sandbox.safaricom.co.ke/",
@@ -61,8 +63,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primaryColor: Colors.brown[450],
-      primarySwatch: Colors.brown),
+      theme: ThemeData(
+          primaryColor: Colors.brown[450], primarySwatch: Colors.brown),
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Mpesa Payment plugin'),
@@ -111,7 +113,7 @@ class _MyAppState extends State<MyApp> {
                                 borderRadius: BorderRadius.circular(10.0)),
                             onPressed: () {
                               startCheckout(
-                                  userPhone: "254--phone",
+                                  userPhone: "2547xxxxxxxx",
                                   amount: itemsOnSale[index]["price"]);
                             },
                             child: Text("Checkout"))
