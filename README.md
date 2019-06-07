@@ -35,6 +35,7 @@ From here, it's now simpler to have it on your app.
     }
   ```
   as part of initialization, you can also enable Logs from http requests by setting this:
+  (Logs on your IDE)
   ```
   MpesaFlutterPlugin.enableDebugModeWithLogging(true);
   
