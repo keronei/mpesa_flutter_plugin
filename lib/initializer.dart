@@ -31,6 +31,13 @@ class MpesaFlutterPlugin {
     _consumerSecretSet = true;
   }
 
+  static Future<Null> enableDebugModeWithLogging(bool debugMode) {
+    ///set debug mode as it starts...
+    Map<String, dynamic> debugModeVar = <String, dynamic>{};
+    debugModeVar.putIfAbsent("mode", () => debugMode);
+    var result = _channel.invokeMethod("setDebugMode", debugModeVar);
+  }
+
   static Future<dynamic> initializeMpesaSTKPush(
       {
 
@@ -112,7 +119,7 @@ class MpesaFlutterPlugin {
         ///
         return kickOfPayment(arguments);
       } else {
-        return  result.toString();
+        return result.toString();
       }
     });
   }
