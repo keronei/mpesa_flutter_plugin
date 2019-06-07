@@ -1,4 +1,4 @@
-# mpesa_flutter_plugin
+# Mpesa plugin
 
 Use this plugin to implement Lipa Na MPESA Online.
 
