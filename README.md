@@ -168,6 +168,10 @@ case failure of a transaction, this is a sample of your result:
 
 That's what in the docs in summary.
 
+## Plugin In Action
+
+![](https://github.com/keronei/mpesa_flutter_plugin/blob/master/recording/screen%20recording.gif)
+
 ## Contributing
 This plugin was build using [this](https://github.com/safaricom/LNMOnlineAndroidSample) project as the reference. Pull Requests are welcomed to this plugin project on [GitHub](https://github.com/keronei/mpesa_flutter_plugin/).
 
