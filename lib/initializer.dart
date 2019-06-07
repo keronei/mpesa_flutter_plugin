@@ -12,30 +12,30 @@ class MpesaFlutterPlugin {
 
   static bool _consumerKeySet = false;
 
-  static Future<Null> setConsumerKey(String consumerKey) {
+  static  setConsumerKey(String consumerKey) {
     ///Value of Consumer Key MUST be set before the party starts.
     Map<String, dynamic> arguments = <String, dynamic>{};
     arguments.putIfAbsent("consumerKey", () => consumerKey);
-    var result = _channel.invokeMethod('setConsumerKey', arguments);
+    _channel.invokeMethod('setConsumerKey', arguments);
     _consumerKeySet = true;
   }
 
   static bool _consumerSecretSet = false;
 
-  static Future<Null> setConsumerSecret(String consumerSecret) {
+  static setConsumerSecret(String consumerSecret) {
     ///ConsumerSecret MUST be set prior to placing
     ///token request, otherwise auth will not work
     Map<String, dynamic> arguments = <String, dynamic>{};
     arguments.putIfAbsent("consumerSecret", () => consumerSecret);
-    var result = _channel.invokeMethod('setConsumerSecret', arguments);
+  _channel.invokeMethod('setConsumerSecret', arguments);
     _consumerSecretSet = true;
   }
 
-  static Future<Null> enableDebugModeWithLogging(bool debugMode) {
+  static enableDebugModeWithLogging(bool debugMode) {
     ///set debug mode as it starts...
     Map<String, dynamic> debugModeVar = <String, dynamic>{};
     debugModeVar.putIfAbsent("mode", () => debugMode);
-    var result = _channel.invokeMethod("setDebugMode", debugModeVar);
+    _channel.invokeMethod("setDebugMode", debugModeVar);
   }
 
   static Future<dynamic> initializeMpesaSTKPush(
