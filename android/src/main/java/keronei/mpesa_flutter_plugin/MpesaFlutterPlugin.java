@@ -1,7 +1,7 @@
 package keronei.mpesa_flutter_plugin;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
+
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -12,11 +12,17 @@ import keronei.mpesa_flutter_plugin.api.ApiClient;
 import keronei.mpesa_flutter_plugin.api.model.AccessToken;
 import keronei.mpesa_flutter_plugin.api.model.STKPush;
 import keronei.mpesa_flutter_plugin.helper.Utils;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
+import com.google.gson.*;
+
+
 //timing libs
+import java.lang.reflect.Array;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -29,9 +35,12 @@ public class MpesaFlutterPlugin implements MethodCallHandler {
     private ApiClient mApiClient;
     private String mConsumerKeyVar;
     private String mConsumerSecretVar;
+    private String mAuthToken = "";
+
+    private Boolean mShouldDebugByDefault = false;
 
     //timers
-    static int interval = 50;
+    static int interval = 3550; //should be 3599 but for benefit of doubt.
     static Timer timer;
 
     /**
@@ -45,7 +54,7 @@ public class MpesaFlutterPlugin implements MethodCallHandler {
     /**
      * Fire timer when token is received...
      */
-    private void startTimer(final ApiClient initClient) {
+    private void startTimer() {
         //target is 59 mins, AuthToken should be set as 0 when time elapse
         timer = new Timer();
 
@@ -55,30 +64,61 @@ public class MpesaFlutterPlugin implements MethodCallHandler {
         timer.scheduleAtFixedRate(new TimerTask() {
 
             public void run() {
-                Log.d("TIMER RUN: ", String.valueOf(setInterval(initClient)));
-
-
+                /*
+                Here, the token countdown runs for 3500 seconds
+                 */
+                setInterval();
             }
         }, delay, period);
 
 
     }
 
-    private static final int setInterval(ApiClient initClien_) {
+    private int setInterval() {
         if (interval == 1) {
             timer.cancel();
-            Log.d("RESET T", "token expired, resetting token...");
-            initClien_.setAuthToken("0");
 
+            mAuthToken = "";
         }
 
         return --interval;
     }
 
+    private void getTokenOnRequest(String sentUrl, final ApiClient initClient, final Result result) {
+        //Create new token. This only means there's no previous token.
+        initClient.setGetAccessToken(true);
+        initClient.mpesaService(sentUrl, mConsumerKeyVar, mConsumerSecretVar, mAuthToken).getAccessToken().enqueue(new Callback<AccessToken>() {
+            @Override
+            public void onResponse(@NonNull Call<AccessToken> call, @NonNull Response<AccessToken> response) {
+
+                try {
+                    if (response.isSuccessful()) {
+                        mAuthToken = response.body().accessToken;
+                        startTimer();
+                        result.success(true);
+                    } else {
+                        String error = response.errorBody().string();
+                        //Just to make sure the message is home success as error/error as success
+                        result.success(error);
+                    }
+
+                } catch (Exception e) {
+                    result.error("EXCEPTION-On-TOKEN-REQUEST", e.getMessage(), null);
+                }
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<AccessToken> call, @NonNull Throwable t) {
+                result.error("Failed on token", t.toString(), null);
+            }
+        });
+    }
+
     @Override
     public void onMethodCall(MethodCall call, final Result result) {
         mApiClient = new ApiClient();
-        mApiClient.setIsDebug(true); //Set True to enable logging, false to disable.
+        mApiClient.setIsDebug(mShouldDebugByDefault); //Set True to enable logging, false to disable.
 
         if (call.method.equals("setConsumerKey")) {
             if (call.hasArgument("consumerKey")) {
@@ -96,46 +136,17 @@ public class MpesaFlutterPlugin implements MethodCallHandler {
             String sentUrl = call.argument("url");
 
             //First query if there's a token already
-            if (mApiClient.getAuthToken().equals("0")) {
-                //Create new token. This only means there's no previous token.
+            if (mAuthToken.isEmpty()) {
+                getTokenOnRequest(sentUrl, mApiClient, result);
 
-                Log.d("START", "getAccessToken invoked with " + mApiClient.getAuthToken() + " url: "+ sentUrl);
-                mApiClient.setGetAccessToken(true);
-                mApiClient.mpesaService(sentUrl, mConsumerKeyVar, mConsumerSecretVar).getAccessToken().enqueue(new Callback<AccessToken>() {
-                    @Override
-                    public void onResponse(@NonNull Call<AccessToken> call, @NonNull Response<AccessToken> response) {
-
-                        try {
-                            if (response.isSuccessful()) {
-                                String receivedToken = response.body().accessToken;
-                                Log.d("TOKEN SET ", receivedToken + " newly created");
-                                mApiClient.setAuthToken(receivedToken);
-                                startTimer(mApiClient);
-                                result.success(true);
-                            } else {
-                                String error = response.errorBody().string();
-                                Log.d("TOKEN SET", "An error occured : " + error);
-                                result.success(false);
-                            }
-
-                        } catch (Exception e) {
-                            Log.d("TOKEN SET ", "An exception while processing response: " + e.getMessage());
-                            result.error("EXCEPTION", e.getMessage(), null);
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<AccessToken> call, @NonNull Throwable t) {
-                        Log.d("SETTHREW :", t.getMessage());
-                        result.success(false);
-                    }
-                });
             } else {
                 //there's a previous token, reply OK
-                Log.d("TOKEN SET", "Previous one still exists");
                 result.success(true);
             }
+        } else if (call.method.equals("setDebugMode")) {
+
+            mShouldDebugByDefault = call.argument("mode");
+
         } else if (call.method.equals("InitPayment")) {
         /*Initialise the payment and send the response to the app:
            MPESA will reply with the following if all variables were accepted(
@@ -201,32 +212,39 @@ public class MpesaFlutterPlugin implements MethodCallHandler {
 
             mApiClient.setGetAccessToken(false);
 
-            mApiClient.mpesaService(mBaseUrl, mConsumerKeyVar, mConsumerSecretVar).sendPush(stkPush).enqueue(new Callback<STKPush>() {
+            mApiClient.mpesaService(mBaseUrl, mConsumerKeyVar, mConsumerSecretVar, mAuthToken).sendPush(stkPush).enqueue(new Callback<Object>() {
                 @Override
-                public void onResponse(@NonNull Call<STKPush> call, @NonNull Response<STKPush> response) {
+                public void onResponse(@NonNull Call call, @NonNull Response response) {
+
 
                     try {
                         if (response.isSuccessful()) {
-                            result.success(response.body());
+                            //Convert the result to JSON for consistency.
+                            Object sentResult = response.body();
+                            Gson revertedResult = new Gson();
+                            String jsoniFied = revertedResult.toJson(sentResult);
+                            result.success(jsoniFied);
+
 
                         } else {
+                            //return Stringified format of response body.
 
-                            String responseBodyStringError = response.errorBody().string();
+                            ResponseBody x = response.errorBody();
+                            result.success(x != null ? x.string() : "Bad error occurred.");
 
-                            result.error("ERROR", responseBodyStringError != null ?
-                                    responseBodyStringError : "Unknown error occurred.", null);
 
                         }
                     } catch (Exception e) {
-                        result.error("EXCEPTION", e.toString(), null);
+                        //throw an exception
+                        result.error("EXCEPTION-On-PAYMENT", e.toString(), null);
 
                     }
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<STKPush> call, @NonNull Throwable t) {
+                public void onFailure(@NonNull Call call, @NonNull Throwable t) {
 
-                    result.error("FAILED", t.getMessage(), null);
+                    result.error("Failed on payment", t.getMessage(), null);
                 }
             });
 

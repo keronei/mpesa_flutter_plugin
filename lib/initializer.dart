@@ -13,7 +13,7 @@ class MpesaFlutterPlugin {
   static bool _consumerKeySet = false;
 
   static Future<Null> setConsumerKey(String consumerKey) {
-    ///Value of Consumer Key MUST be a String :)
+    ///Value of Consumer Key MUST be set before the party starts.
     Map<String, dynamic> arguments = <String, dynamic>{};
     arguments.putIfAbsent("consumerKey", () => consumerKey);
     var result = _channel.invokeMethod('setConsumerKey', arguments);
@@ -23,12 +23,19 @@ class MpesaFlutterPlugin {
   static bool _consumerSecretSet = false;
 
   static Future<Null> setConsumerSecret(String consumerSecret) {
-    ///ConsumerSecret MUST be string-ified
-    ///Otherwise auth will not work
+    ///ConsumerSecret MUST be set prior to placing
+    ///token request, otherwise auth will not work
     Map<String, dynamic> arguments = <String, dynamic>{};
     arguments.putIfAbsent("consumerSecret", () => consumerSecret);
     var result = _channel.invokeMethod('setConsumerSecret', arguments);
     _consumerSecretSet = true;
+  }
+
+  static Future<Null> enableDebugModeWithLogging(bool debugMode) {
+    ///set debug mode as it starts...
+    Map<String, dynamic> debugModeVar = <String, dynamic>{};
+    debugModeVar.putIfAbsent("mode", () => debugMode);
+    var result = _channel.invokeMethod("setDebugMode", debugModeVar);
   }
 
   static Future<dynamic> initializeMpesaSTKPush(
@@ -105,7 +112,6 @@ class MpesaFlutterPlugin {
     return _channel
         .invokeMethod("setToken", baseURLHolder)
         .then((dynamic result) {
-      print("LONG AWAITED RESULT: " + result.toString());
       if (result == true) {
         ///Indicate [true] if token was granted, then
         /// start countdown and fire
@@ -113,7 +119,7 @@ class MpesaFlutterPlugin {
         ///
         return kickOfPayment(arguments);
       } else {
-        return {"error": "timed out creating Auth token"};
+        return result.toString();
       }
     });
   }
