@@ -1,41 +1,30 @@
 import 'dart:async';
-import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 import './payment_enums.dart';
+import './universal_api/api_caller.dart';
 
 class MpesaFlutterPlugin {
-  static const MethodChannel _channel =
-      const MethodChannel('mpesa_flutter_plugin');
 
   static bool _consumerKeySet = false;
+  static String _mConsumerKeyVariable;
 
-  static  setConsumerKey(String consumerKey) {
+  static setConsumerKey(String consumerKey) {
     ///Value of Consumer Key MUST be set before the party starts.
-    Map<String, dynamic> arguments = <String, dynamic>{};
-    arguments.putIfAbsent("consumerKey", () => consumerKey);
-    _channel.invokeMethod('setConsumerKey', arguments);
+    _mConsumerKeyVariable = consumerKey;
     _consumerKeySet = true;
   }
 
   static bool _consumerSecretSet = false;
+  static String _mConsumerSecretVariable;
 
   static setConsumerSecret(String consumerSecret) {
     ///ConsumerSecret MUST be set prior to placing
     ///token request, otherwise auth will not work
-    Map<String, dynamic> arguments = <String, dynamic>{};
-    arguments.putIfAbsent("consumerSecret", () => consumerSecret);
-  _channel.invokeMethod('setConsumerSecret', arguments);
+    _mConsumerSecretVariable = consumerSecret;
     _consumerSecretSet = true;
-  }
-
-  static enableDebugModeWithLogging(bool debugMode) {
-    ///set debug mode as it starts...
-    Map<String, dynamic> debugModeVar = <String, dynamic>{};
-    debugModeVar.putIfAbsent("mode", () => debugMode);
-    _channel.invokeMethod("setDebugMode", debugModeVar);
   }
 
   static Future<dynamic> initializeMpesaSTKPush(
@@ -48,85 +37,58 @@ class MpesaFlutterPlugin {
 
       @required String businessShortCode,
       @required TransactionType transactionType,
-      @required String amount,
+      @required double amount,
       @required String partyA,
       @required String partyB,
-      @required String callBackURL,
+      @required Uri callBackURL,
       @required String accountReference,
       String transactionDesc,
       @required String phoneNumber,
-      @required String baseUrl,
+      @required Uri baseUri,
       @required String passKey}) async {
     /*Inject some sanity*/
-    if (double.parse(amount) < 1.0) {
+    if (amount < 1.0) {
       throw "error: you provided $amount  as the amount which is not valid.";
     }
     if (phoneNumber.length < 9) {
       throw "error: $phoneNumber  doesn\'t seem to be a valid phone number";
     }
-    /*Stop iOS here, end of the road*/
-    if (Platform.isIOS) {
-      throw "iOS not supported yet";
+    if (!phoneNumber.startsWith('254')) {
+      throw "error: $phoneNumber need be in international format";
     }
-
-    if (!baseUrl.startsWith("https://")) {
-      throw "ensure base url is in the correct format : https://";
-    }
-
-    /*Create arguments */
-
-    Map<String, dynamic> arguments = <String, dynamic>{};
 
     /*Mine the secrets from Config*/
 
     if (!_consumerSecretSet || !_consumerKeySet) {
       throw "error: ensure consumer key & secret is set. Use MpesaFlutterPlugin.setConsumer...";
     }
+    var rawTimeStamp = new DateTime.now();
+    var formatter = new DateFormat('yyyyMMddHHmmss');
+    String actualTimeStamp = formatter.format(rawTimeStamp);
 
-    arguments.putIfAbsent("BASE_URL", () => baseUrl);
+    print("reached return statement;" +
+        _mConsumerSecretVariable.toString() +
+        " key: " +
+        _mConsumerKeyVariable.toString());
 
-    arguments.putIfAbsent('BUSINESS_SHORT_CODE', () => businessShortCode);
-    arguments.putIfAbsent(
-        'TRANSACTION_TYPE',
-        () => transactionType == TransactionType.CustomerPayBillOnline
-            ? "CustomerPayBillOnline"
-            : "CustomerBuyGoodsOnline");
-    arguments.putIfAbsent('AMOUNT', () => amount);
-    arguments.putIfAbsent('PARTY_B', () => partyB);
-    arguments.putIfAbsent('PHONE_NUMBER', () => phoneNumber);
-    arguments.putIfAbsent('CALLBACK_URL', () => callBackURL);
-    arguments.putIfAbsent('TRANSACTION_REF', () => accountReference);
-    arguments.putIfAbsent('PASS_KEY', () => passKey);
-    arguments.putIfAbsent('TRANSACTION_DESC', () => transactionDesc);
-
-    ///createToken---> wait and then place the request
-    ///The token provided lasts for 3600 seconds.
-    ///The best alternative is to set timer after requesting token,
-    ///but here is the issue [[expiry time vs +ve ]] response from server.
-    ///
-    /// Best is to set CountDown iff the initial token request was successful.
-
-    Map<String, dynamic> baseURLHolder = {};
-    baseURLHolder.putIfAbsent("url", () => baseUrl);
-
-    return _channel
-        .invokeMethod("setToken", baseURLHolder)
-        .then((dynamic result) {
-      if (result == true) {
-        ///Indicate [true] if token was granted, then
-        /// start countdown and fire
-        /// payment request, else retry.
-        ///
-        return kickOfPayment(arguments);
-      } else {
-        return result.toString();
-      }
-    });
-  }
-
-  static dynamic kickOfPayment(Map<String, dynamic> args) async {
-    return await _channel.invokeMethod('InitPayment', args).then((result) {
-      return result;
-    });
+    return RequestHandler(
+            consumerKey: _mConsumerKeyVariable,
+            consumerSecret: _mConsumerSecretVariable,
+            baseUrl: baseUri.host)
+        .mSTKRequest(
+            mAccountReference: accountReference,
+            mAmount: amount,
+            mBusinessShortCode: businessShortCode,
+            mCallBackURL: callBackURL,
+            mPhoneNumber: phoneNumber,
+            mTimeStamp: actualTimeStamp,
+            mTransactionDesc: transactionDesc,
+            nPassKey: passKey,
+            partyA: partyA,
+            partyB: partyB,
+            mTransactionType:
+                transactionType == TransactionType.CustomerPayBillOnline
+                    ? "CustomerPayBillOnline"
+                    : "CustomerBuyGoodsOnline");
   }
 }
