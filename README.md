@@ -19,7 +19,6 @@ These two places will help you get started on a better gear.
 1. [Safaricom API Tutorial ](http://peternjeru.co.ke/safdaraja/ui/#lnm_tutorial)
 2. [Safaricom Developer Portal Docs](https://developer.safaricom.co.ke/docs)
 
-***Note***: Currently this plugin only supports initiating payments on an Android device, iOS support will be out soon.
 
 From here, it's now simpler to have it on your app.
 
@@ -34,13 +33,6 @@ From here, it's now simpler to have it on your app.
     
     }
   ```
-  as part of initialization, you can also enable Logs from http requests by setting this:
-  (Logs on your IDE)
-  ```
-  MpesaFlutterPlugin.enableDebugModeWithLogging(true);
-  
-  ```
-  Logs are off by default, also, if you prefer to enable them, set it in `main` function.
   
   2. Initiate the payment.
   ```dart
@@ -59,7 +51,7 @@ From here, it's now simpler to have it on your app.
                   callBackURL: <url-to-receive-payment-results>,
                   accountReference: <could-be-order-number>,
                   phoneNumber: <user's-phone-to-request-payment>,
-                  baseUrl: <live-or-sandbox-base-url>,
+                  baseUri: <live-or-sandbox-base-url>,
                   transactionDesc: <short-description>,
                   passKey: <your-passkey>);
                   
@@ -173,7 +165,7 @@ That's what in the docs in summary.
 ![](https://github.com/keronei/mpesa_flutter_plugin/blob/master/recording/screen%20recording.gif)
 
 ## Contributing
-This plugin was build using [this](https://github.com/safaricom/LNMOnlineAndroidSample) project as the reference. Pull Requests are welcomed to this plugin project on [GitHub](https://github.com/keronei/mpesa_flutter_plugin/).
+Pull Requests are welcomed to this plugin project on [GitHub](https://github.com/keronei/mpesa_flutter_plugin/).
 
 
 
