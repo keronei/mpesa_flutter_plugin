@@ -8,3 +8,7 @@ build/
 .idea/workspace.xml
 
 example/lib/global_keys.dart
+
+/example/ios/Runner.xcodeproj/project.pbxproj
+
+/example/ios/Runner.xcworkspace/contents.xcworkspacedata
