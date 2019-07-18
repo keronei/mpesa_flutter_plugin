@@ -11,7 +11,7 @@ void main() {
      */
   MpesaFlutterPlugin.setConsumerKey(mConsumerKey);
   MpesaFlutterPlugin.setConsumerSecret(mConsumerSecret);
-  //MpesaFlutterPlugin.enableDebugModeWithLogging(true);
+
   runApp(MyApp());
 }
 
@@ -21,7 +21,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Future<void> startCheckout({String userPhone, int amount}) async {
+  Future<void> startCheckout({String userPhone, double amount}) async {
     //Preferably expect 'dynamic', response type varies a lot!
     dynamic transactionInitialisation;
     //Better wrap in a try-catch for lots of reasons.
@@ -31,13 +31,13 @@ class _MyAppState extends State<MyApp> {
           await MpesaFlutterPlugin.initializeMpesaSTKPush(
               businessShortCode: "174379",
               transactionType: TransactionType.CustomerPayBillOnline,
-              amount: amount.toString(),
+              amount: amount,
               partyA: userPhone,
               partyB: "174379",
-              callBackURL: "https://url-to-post",
+              callBackURL: Uri(scheme: "https", host : "integrate-payment.herokuapp.com", path: "/callback"),
               accountReference: "shoe",
               phoneNumber: userPhone,
-              baseUrl: "https://sandbox.safaricom.co.ke/",
+              baseUri: Uri(scheme: "https", host: "sandbox.safaricom.co.ke"),
               transactionDesc: "purchase",
               passKey: mPasskey);
 
@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
     {
       "image": "image/shoe.jpg",
       "itemName": "Breathable Oxford Casual Shoes",
-      "price": 1
+      "price": 1.0
     }
   ];
 
@@ -113,7 +113,7 @@ class _MyAppState extends State<MyApp> {
                                 borderRadius: BorderRadius.circular(10.0)),
                             onPressed: () {
                               startCheckout(
-                                  userPhone: "2547xxxxxxxx",
+                                  userPhone: "254710529574",
                                   amount: itemsOnSale[index]["price"]);
                             },
                             child: Text("Checkout"))
