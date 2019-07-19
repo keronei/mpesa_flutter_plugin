@@ -66,11 +66,6 @@ class MpesaFlutterPlugin {
     var formatter = new DateFormat('yyyyMMddHHmmss');
     String actualTimeStamp = formatter.format(rawTimeStamp);
 
-    print("reached return statement;" +
-        _mConsumerSecretVariable.toString() +
-        " key: " +
-        _mConsumerKeyVariable.toString());
-
     return RequestHandler(
             consumerKey: _mConsumerKeyVariable,
             consumerSecret: _mConsumerSecretVariable,
