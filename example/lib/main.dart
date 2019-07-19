@@ -34,7 +34,7 @@ class _MyAppState extends State<MyApp> {
               amount: amount,
               partyA: userPhone,
               partyB: "174379",
-              callBackURL: Uri(scheme: "https", host : "integrate-payment.herokuapp.com", path: "/callback"),
+              callBackURL: Uri(scheme: "https", host : "my-app.herokuapp.com", path: "/callback"),
               accountReference: "shoe",
               phoneNumber: userPhone,
               baseUri: Uri(scheme: "https", host: "sandbox.safaricom.co.ke"),
@@ -96,10 +96,13 @@ class _MyAppState extends State<MyApp> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        Text(
-                          itemsOnSale[index]["itemName"],
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 14.0, color: Colors.black),
+                        Container(
+                          width: MediaQuery.of(context).size.width*0.45,
+                          child: Text(
+                            itemsOnSale[index]["itemName"],
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontSize: 14.0, color: Colors.black),
+                          ),
                         ),
                         Text(
                           "Ksh. " + itemsOnSale[index]["price"].toString(),
@@ -113,7 +116,7 @@ class _MyAppState extends State<MyApp> {
                                 borderRadius: BorderRadius.circular(10.0)),
                             onPressed: () {
                               startCheckout(
-                                  userPhone: "254710529574",
+                                  userPhone: "254710XXX574",
                                   amount: itemsOnSale[index]["price"]);
                             },
                             child: Text("Checkout"))
