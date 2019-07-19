@@ -169,7 +169,7 @@ That's what in the docs in summary.
 </td>
 
 <td style="text-align: center">
-<img src="https://github.com/keronei/mpesa_flutter_plugin/blob/master/recording/io_recording.gif" width="250" height="470"/>
+<img src="https://github.com/keronei/mpesa_flutter_plugin/blob/ft-iOS-support/recording/io_recording.gif" width="250" height="470"/>
 </td>
 </tr></table></div>
 
