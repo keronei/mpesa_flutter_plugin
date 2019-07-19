@@ -9,5 +9,9 @@ build/
 
 example/lib/global_keys.dart
 
+.gradle/
+.idea/
+
+
 
 /example/ios/Runner.xcworkspace/contents.xcworkspacedata
