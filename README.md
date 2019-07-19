@@ -162,7 +162,18 @@ That's what in the docs in summary.
 
 ## Plugin In Action
 
-![](https://github.com/keronei/mpesa_flutter_plugin/blob/master/recording/screen%20recording.gif)
+<div style="text-align: center"><table><tr>
+<td style="text-align: center">
+
+<img src="https://github.com/keronei/mpesa_flutter_plugin/blob/master/recording/screen%20recording.gif" width="200" height="500"/>
+</td>
+
+<td style="text-align: center">
+<img src="https://github.com/keronei/mpesa_flutter_plugin/blob/master/recording/io_recording.gif" width="200" height="500"/>
+</td>
+</tr></table></div>
+
+
 
 ## Contributing
 Pull Requests are welcomed to this plugin project on [GitHub](https://github.com/keronei/mpesa_flutter_plugin/).

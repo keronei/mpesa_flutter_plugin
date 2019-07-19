@@ -5,7 +5,7 @@
 * Bug fixes
 ## 0.0.3
 * Added support for *iOS*
-* Upgraded android version to support *androidx*
+* Migrated android version to support *androidx*
 * Changed following properties:
     1. String amount to double amount
     2. String callbackUrl to Uri callbackUrl
