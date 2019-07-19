@@ -11,3 +11,6 @@
     2. String callbackUrl to Uri callbackUrl
     3. String baseUrl to Uri baseUri
     3. Removed _enableDebugModeWithLogging_ method.
+
+## 0.0.4
+* Removed unnecessary dependencies in android.

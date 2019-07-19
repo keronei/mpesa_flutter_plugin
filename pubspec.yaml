@@ -1,6 +1,6 @@
 name: mpesa_flutter_plugin
 description: Use this plugin to implement Lipa Na MPESA Online in your flutter app. This only gives you a payment initialization interface.
-version: 0.0.3
+version: 0.0.4
 author: Keronei Lincoln <lincolnkeronei95@gmail.com>
 homepage: https://github.com/keronei/mpesa_flutter_plugin
 
