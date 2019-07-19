@@ -165,11 +165,11 @@ That's what in the docs in summary.
 <div style="text-align: center"><table><tr>
 <td style="text-align: center">
 
-<img src="https://github.com/keronei/mpesa_flutter_plugin/blob/master/recording/screen%20recording.gif" width="200" height="500"/>
+<img src="https://github.com/keronei/mpesa_flutter_plugin/blob/master/recording/screen%20recording.gif" width="250" height="470"/>
 </td>
 
 <td style="text-align: center">
-<img src="https://github.com/keronei/mpesa_flutter_plugin/blob/master/recording/io_recording.gif" width="200" height="500"/>
+<img src="https://github.com/keronei/mpesa_flutter_plugin/blob/master/recording/io_recording.gif" width="250" height="470"/>
 </td>
 </tr></table></div>
 
