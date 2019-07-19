@@ -1,9 +1,5 @@
-enum TransactionType{
+enum TransactionType {
   CustomerPayBillOnline,
 }
 
-enum TransactionMode{
-  IsLive,
-  IsTesting
-
-}
+enum TransactionMode { IsLive, IsTesting }

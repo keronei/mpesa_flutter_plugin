@@ -7,7 +7,6 @@ import './payment_enums.dart';
 import './universal_api/api_caller.dart';
 
 class MpesaFlutterPlugin {
-
   static bool _consumerKeySet = false;
   static String _mConsumerKeyVariable;
 
