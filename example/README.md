@@ -13,7 +13,7 @@ void main() {
      */
   MpesaFlutterPlugin.setConsumerKey(mConsumerKey);
   MpesaFlutterPlugin.setConsumerSecret(mConsumerSecret);
-  //MpesaFlutterPlugin.enableDebugModeWithLogging(true);
+
   runApp(MyApp());
 }
 
@@ -23,7 +23,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Future<void> startCheckout({String userPhone, int amount}) async {
+  Future<void> startCheckout({String userPhone, double amount}) async {
     //Preferably expect 'dynamic', response type varies a lot!
     dynamic transactionInitialisation;
     //Better wrap in a try-catch for lots of reasons.
@@ -33,13 +33,13 @@ class _MyAppState extends State<MyApp> {
           await MpesaFlutterPlugin.initializeMpesaSTKPush(
               businessShortCode: "174379",
               transactionType: TransactionType.CustomerPayBillOnline,
-              amount: amount.toString(),
+              amount: amount,
               partyA: userPhone,
               partyB: "174379",
-              callBackURL: "https://url-to-post",
+              callBackURL: Uri(scheme: "https", host : "my-app.herokuapp.com", path: "/callback"),
               accountReference: "shoe",
               phoneNumber: userPhone,
-              baseUrl: "https://sandbox.safaricom.co.ke/",
+              baseUri: Uri(scheme: "https", host: "sandbox.safaricom.co.ke"),
               transactionDesc: "purchase",
               passKey: mPasskey);
 
@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
     {
       "image": "image/shoe.jpg",
       "itemName": "Breathable Oxford Casual Shoes",
-      "price": 1
+      "price": 1.0
     }
   ];
 
@@ -98,10 +98,13 @@ class _MyAppState extends State<MyApp> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                        Text(
-                          itemsOnSale[index]["itemName"],
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 14.0, color: Colors.black),
+                        Container(
+                          width: MediaQuery.of(context).size.width*0.45,
+                          child: Text(
+                            itemsOnSale[index]["itemName"],
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontSize: 14.0, color: Colors.black),
+                          ),
                         ),
                         Text(
                           "Ksh. " + itemsOnSale[index]["price"].toString(),
@@ -115,7 +118,7 @@ class _MyAppState extends State<MyApp> {
                                 borderRadius: BorderRadius.circular(10.0)),
                             onPressed: () {
                               startCheckout(
-                                  userPhone: "2547xxxxxxxx",
+                                  userPhone: "254710xxxxxx",
                                   amount: itemsOnSale[index]["price"]);
                             },
                             child: Text("Checkout"))
@@ -132,5 +135,6 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
 
 ```
