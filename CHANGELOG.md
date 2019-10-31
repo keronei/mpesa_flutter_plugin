@@ -14,3 +14,6 @@
 
 ## 0.0.4
 * Removed unnecessary dependencies in android.
+
+## 0.0.5
+* Upgraded intl version to 0.16.0
