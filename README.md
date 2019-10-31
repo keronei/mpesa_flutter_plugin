@@ -48,10 +48,10 @@ From here, it's now simpler to have it on your app.
                   amount: <amount-in-string-format>,
                   partyA: <user's-phone-to-request-payment>,
                   partyB: <your-code>,
-                  callBackURL: <url-to-receive-payment-results>,
+                  callBackURL: <uri-to-receive-payment-results>,
                   accountReference: <could-be-order-number>,
                   phoneNumber: <user's-phone-to-request-payment>,
-                  baseUri: <live-or-sandbox-base-url>,
+                  baseUri: <live-or-sandbox-base-uri>,
                   transactionDesc: <short-description>,
                   passKey: <your-passkey>);
                   
@@ -64,9 +64,9 @@ From here, it's now simpler to have it on your app.
   With that you are pretty much done. Here is a breakdown of the params required :
   
   1. `businessShortCode`  & `partyB` which you can apply from the developer portal mentioned in credentials, alternatively, use `174379` for test purposes.
-  2. `amount` amount you expect from customer, in Ksh, string.
+  2. `amount` amount you expect from customer, in Ksh, double.
   3. `phoneNumber` & `partyA` the user's phone number to request payment from.
-  4. `callBackURL` is where the payment results will be *POSTed* to you.
+  4. `callBackURL` is where the payment results will be *POSTed* to you, Uri, if it has a path then specify host & path.
   5. `accountReference` what are the payments for? a short ref like users' order, account number...will be displayed to the user when requesting completion of payment.
   5. `transactionDesc` brief description of the tansaction. Not actually a description, a _descriptive_ word. (Sometimes optional)
   6. `passKey` obtained from portal, will be blended with a few more things to generate your final password later, alternatively, use `bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919` for test purposes.
