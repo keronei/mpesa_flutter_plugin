@@ -17,3 +17,8 @@
 
 ## 0.0.5
 * Upgraded intl version to 0.16.0
+
+## 1.0.0
+* Fixed a bug where the Initializer expected a return of type Map but
+an exception thrown returns a string.
+* Removed platform specific folders since they are no longer in use
