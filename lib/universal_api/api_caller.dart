@@ -149,7 +149,9 @@ class RequestHandler {
     }).catchError((error) {
       ///the user should expect anything here, from network errors to
       ///timeout issues or whatever an http error is!
-      return error.toString();
+
+      result["error"] = error.toString();
+      return result;
     });
   }
 }
