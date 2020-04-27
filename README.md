@@ -43,22 +43,22 @@ From here, it's now simpler to have it on your app.
   //Run it
   transactionInitialisation =
           await MpesaFlutterPlugin.initializeMpesaSTKPush(
-                  businessShortCode: <your-code>,
+                  businessShortCode: <your_code>,
                   transactionType: TransactionType.CustomerPayBillOnline,
-                  amount: <amount-in-string-format>,
-                  partyA: <users-phone-to-request-payment>,
-                  partyB: <your-code>,
-                  callBackURL: <uri-to-receive-payment-results>,
-                  accountReference: <could-be-order-number>,
-                  phoneNumber: <users-phone-to-request-payment>,
-                  baseUri: <live-or-sandbox-base-uri>,
-                  transactionDesc: <short-description>,
-                  passKey: <your-passkey>);
+                  amount: <amount_in_string_format>,
+                  partyA: <users_phone_to_request_payment>,
+                  partyB: <your_code>,
+                  callBackURL: <uri_to_receive_payment_results>,
+                  accountReference: <could_be_order_number>,
+                  phoneNumber: <users_phone_to-request_payment>,
+                  baseUri: <live_or_sandbox_base_uri>,
+                  transactionDesc: <short_description>,
+                  passKey: <your_passkey>);
                   
   } catch (e) {
   //you can implement your exception handling here.
   //Network unreachability is a sure exception.
-  print(e.getMessage();
+  print(e.getMessage());
   }
   ```
   With that you are pretty much done. Here is a breakdown of the params required :
@@ -127,7 +127,7 @@ From here, it's now simpler to have it on your app.
                                           
                                           {
                                           "Name": "PhoneNumber",
-                                          "Value": 254710xxx574
+                                          "Value": 254710...574
                                           }
                                       ]
               
