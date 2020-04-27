@@ -46,11 +46,11 @@ From here, it's now simpler to have it on your app.
                   businessShortCode: <your-code>,
                   transactionType: TransactionType.CustomerPayBillOnline,
                   amount: <amount-in-string-format>,
-                  partyA: <user's-phone-to-request-payment>,
+                  partyA: <user\'s-phone-to-request-payment>,
                   partyB: <your-code>,
                   callBackURL: <uri-to-receive-payment-results>,
                   accountReference: <could-be-order-number>,
-                  phoneNumber: <user's-phone-to-request-payment>,
+                  phoneNumber: <user\'s-phone-to-request-payment>,
                   baseUri: <live-or-sandbox-base-uri>,
                   transactionDesc: <short-description>,
                   passKey: <your-passkey>);
