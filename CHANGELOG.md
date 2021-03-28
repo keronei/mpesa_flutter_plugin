@@ -22,3 +22,6 @@
 * Fixed a bug where the Initializer expected a return of type Map but
 an exception thrown returns a string.
 * Removed platform specific folders since they are no longer in use
+
+## 1.5.0-beta1
+* Migrated to sound null safety

@@ -12,7 +12,7 @@ class RequestHandler {
   final String baseUrl;
 
   late String mAccessToken;
-  late DateTime mAccessExpiresAt;
+  DateTime? mAccessExpiresAt;
 
   ///For instantiation, create the key secret on the fly with received values.
 
@@ -50,7 +50,7 @@ class RequestHandler {
     /// the token is set and ready for usage.
     DateTime now = new DateTime.now();
     if (mAccessExpiresAt != null) {
-      if (now.isBefore(mAccessExpiresAt)) {
+      if (now.isBefore(mAccessExpiresAt!)) {
         return;
       }
     }
