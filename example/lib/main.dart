@@ -126,7 +126,7 @@ class _MyAppState extends State<MyApp> {
                                 borderRadius: BorderRadius.circular(10.0)),
                             onPressed: () {
                               startCheckout(
-                                  userPhone: "254710XXX574",
+                                  userPhone: "254710529574",
                                   amount: itemsOnSale[index]["price"]);
                             },
                             child: Text("Checkout"))
