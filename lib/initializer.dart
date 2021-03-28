@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import './payment_enums.dart';
@@ -8,7 +7,7 @@ import './universal_api/api_caller.dart';
 
 class MpesaFlutterPlugin {
   static bool _consumerKeySet = false;
-  static String _mConsumerKeyVariable;
+   static late String _mConsumerKeyVariable;
 
   static setConsumerKey(String consumerKey) {
     ///Value of Consumer Key MUST be set before the party starts.
@@ -17,7 +16,7 @@ class MpesaFlutterPlugin {
   }
 
   static bool _consumerSecretSet = false;
-  static String _mConsumerSecretVariable;
+  static late String _mConsumerSecretVariable;
 
   static setConsumerSecret(String consumerSecret) {
     ///ConsumerSecret MUST be set prior to placing
@@ -34,17 +33,17 @@ class MpesaFlutterPlugin {
       ///Phone Number should be a registered MPESA number
       ///Which is same as PartyA
 
-      @required String businessShortCode,
-      @required TransactionType transactionType,
-      @required double amount,
-      @required String partyA,
-      @required String partyB,
-      @required Uri callBackURL,
-      @required String accountReference,
-      String transactionDesc,
-      @required String phoneNumber,
-      @required Uri baseUri,
-      @required String passKey}) async {
+      required String businessShortCode,
+      required TransactionType transactionType,
+      required double amount,
+      required String partyA,
+      required String partyB,
+      required Uri callBackURL,
+      required String accountReference,
+      String? transactionDesc,
+      required String phoneNumber,
+      required Uri baseUri,
+      required String passKey}) async {
     /*Inject some sanity*/
     if (amount < 1.0) {
       throw "error: you provided $amount  as the amount which is not valid.";

@@ -21,7 +21,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Future<void> startCheckout({String userPhone, double amount}) async {
+  Future<void> startCheckout({required String userPhone, required double amount}) async {
     //Preferably expect 'dynamic', response type varies a lot!
     dynamic transactionInitialisation;
     //Better wrap in a try-catch for lots of reasons.
@@ -43,12 +43,22 @@ class _MyAppState extends State<MyApp> {
 
       print("TRANSACTION RESULT: " + transactionInitialisation.toString());
 
+      //You can check sample parsing here -> https://github.com/keronei/Mobile-Demos/blob/mpesa-flutter-client-app/lib/main.dart
+
       /*Update your db with the init data received from initialization response,
       * Remaining bit will be sent via callback url*/
       return transactionInitialisation;
     } catch (e) {
       //For now, console might be useful
       print("CAUGHT EXCEPTION: " + e.toString());
+
+      /*
+      Other 'throws':
+      1. Amount being less than 1.0
+      2. Consumer Secret/Key not set
+      3. Phone number is less than 9 characters
+      4. Phone number not in international format(should start with 254 for KE)
+       */
     }
   }
 

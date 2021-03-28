@@ -5,12 +5,12 @@ version: 1.0.0
 homepage: https://github.com/keronei/mpesa_flutter_plugin
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  intl: ^0.16.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
