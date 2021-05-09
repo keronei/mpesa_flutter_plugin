@@ -29,15 +29,15 @@ class _MyAppState extends State<MyApp> {
       //Run it
       transactionInitialisation =
           await MpesaFlutterPlugin.initializeMpesaSTKPush(
-              businessShortCode: "174379",
-              transactionType: TransactionType.CustomerPayBillOnline,
+              businessShortCode: "730018",
+              transactionType: TransactionType.CustomerBuyGoodsOnline,
               amount: amount,
               partyA: userPhone,
-              partyB: "174379",
-              callBackURL: Uri(scheme: "https", host : "my-app.herokuapp.com", path: "/callback"),
+              partyB: "732631",
+              callBackURL: Uri(scheme: "https", host : "carwash.romeofoxalpha.co.ke", path: "/pushConfirmation.php"),
               accountReference: "shoe",
               phoneNumber: userPhone,
-              baseUri: Uri(scheme: "https", host: "sandbox.safaricom.co.ke"),
+              baseUri: Uri(scheme: "https", host: "api.safaricom.co.ke"),
               transactionDesc: "purchase",
               passKey: mPasskey);
 
