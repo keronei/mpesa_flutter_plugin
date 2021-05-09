@@ -34,7 +34,7 @@ class _MyAppState extends State<MyApp> {
               amount: amount,
               partyA: userPhone,
               partyB: "732631",
-              callBackURL: Uri(scheme: "https", host : "carwash.romeofoxalpha.co.ke", path: "/pushConfirmation.php"),
+              callBackURL: Uri(scheme: "https", host : "1234.1234.co.ke", path: "/1234.php"),
               accountReference: "shoe",
               phoneNumber: userPhone,
               baseUri: Uri(scheme: "https", host: "api.safaricom.co.ke"),
