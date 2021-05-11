@@ -31,8 +31,8 @@ class _MyAppState extends State<MyApp> {
       //Run it
       transactionInitialisation =
           await MpesaFlutterPlugin.initializeMpesaSTKPush(
-              businessShortCode: "174379",
-              transactionType: TransactionType.CustomerPayBillOnline,
+              businessShortCode: <your_code>,//use your store number if the transaction type is CustomerBuyGoodsOnline
+              transactionType: TransactionType.CustomerPayBillOnline, //or CustomerBuyGoodsOnline for till numbers
               amount: amount,
               partyA: userPhone,
               partyB: "174379",

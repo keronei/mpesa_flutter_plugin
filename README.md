@@ -43,8 +43,8 @@ From here, it's now simpler to have it on your app.
   //Run it
   transactionInitialisation =
           await MpesaFlutterPlugin.initializeMpesaSTKPush(
-                  businessShortCode: <your_code>,
-                  transactionType: TransactionType.CustomerPayBillOnline,
+                  businessShortCode: <your_code>,//use your store number if the transaction type is CustomerBuyGoodsOnline
+                  transactionType: TransactionType.CustomerPayBillOnline, //or CustomerBuyGoodsOnline for till numbers
                   amount: <amount_in_string_format>,
                   partyA: <users_phone_to_request_payment>,
                   partyB: <your_code>,
