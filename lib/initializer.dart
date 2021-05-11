@@ -1,8 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import './payment_enums.dart';
 import './universal_api/api_caller.dart';
 
