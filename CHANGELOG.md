@@ -27,5 +27,5 @@ an exception thrown returns a string.
 * Migrated to sound null safety
 
 ## 1.6.0-beta1
-* Added documentation for PayBill support(thanks to [Dedan Kibere](https://github.com/ndungudedan))
+* Added documentation for store till number support (thanks to [Dedan Kibere](https://github.com/ndungudedan))
 * Upgraded example app to use flutter embedding v2
