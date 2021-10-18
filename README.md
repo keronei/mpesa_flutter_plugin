@@ -16,7 +16,7 @@ This plugin requires good understanding of the MPESA C2B concept, in as much as 
 you will also need to get things right in order to have it serve you right. With that said,
 
 These two places will help you get started on a better gear.
-1. [Safaricom API Tutorial ](http://peternjeru.co.ke/safdaraja/ui/#lnm_tutorial)
+1. [Safaricom API Tutorial ](https://peternjeru.co.ke/safdaraja/ui/#lnm_tutorial)
 2. [Safaricom Developer Portal Docs](https://developer.safaricom.co.ke/docs)
 
 
@@ -57,7 +57,16 @@ From here, it's now simpler to have it on your app.
                   
   } catch (e) {
   //you can implement your exception handling here.
-  //Network unreachability is a sure exception.
+  //Network un-reachability is a sure exception.
+
+    /*
+    Other 'throws':
+    1. Amount being less than 1.0
+    2. Consumer Secret/Key not set
+    3. Phone number is less than 9 characters
+    4. Phone number not in international format(should start with 254 for KE)
+     */
+
   print(e.getMessage());
   }
   ```
@@ -68,9 +77,11 @@ From here, it's now simpler to have it on your app.
   3. `phoneNumber` & `partyA` the user's phone number to request payment from.
   4. `callBackURL` is where the payment results will be *POSTed* to you, Uri, if it has a path then specify host & path.
   5. `accountReference` what are the payments for? a short ref like users' order, account number...will be displayed to the user when requesting completion of payment.
-  5. `transactionDesc` brief description of the tansaction. Not actually a description, a _descriptive_ word. (Sometimes optional)
-  6. `passKey` obtained from portal, will be blended with a few more things to generate your final password later, alternatively, use `bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919` for test purposes.
-  
+  6. `transactionDesc` brief description of the transaction. Not actually a description, a _descriptive_ word. (Sometimes optional)
+  7. `passKey` obtained from portal, will be blended with a few more things to generate your final password later, alternatively, use `bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919` for test purposes.
+  8. `baseUri` is the url that your transaction should be processed in. Now required as Uri for uniformity purposes,
+    *Note:* Remember to switch to live instance URL before moving to prod.(https://sandbox.safaricom.co.ke is for testing)
+
   ### Docs at a glance.
   When you place the request, and network does it's job well, the MPESA payment processor will validate your parameters and send your an acknowledgement or an error response immediately:
   case success: expect something of this sort in `transactionInitialisation` var.

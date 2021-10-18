@@ -11,12 +11,12 @@ class RequestHandler {
   final String b64keySecret;
   final String baseUrl;
 
-  String mAccessToken;
-  DateTime mAccessExpiresAt;
+  late String mAccessToken;
+  DateTime? mAccessExpiresAt;
 
   ///For instantiation, create the key secret on the fly with received values.
 
-  RequestHandler({this.consumerKey, this.consumerSecret, this.baseUrl})
+  RequestHandler({required this.consumerKey, required this.consumerSecret, required this.baseUrl})
       : b64keySecret =
             base64Url.encode((consumerKey + ":" + consumerSecret).codeUnits);
 
@@ -32,7 +32,7 @@ class RequestHandler {
   }
 
   String generatePassword(
-      {String mPassKey, String mShortCode, String actualTimeStamp}) {
+      {required String mPassKey, required String mShortCode, required String actualTimeStamp}) {
     ///Adds up the paybill no., the timestamp & passkey to generate a base64
     ///code to be added to the request body as unique password to auth
     ///the request in question.
@@ -50,7 +50,7 @@ class RequestHandler {
     /// the token is set and ready for usage.
     DateTime now = new DateTime.now();
     if (mAccessExpiresAt != null) {
-      if (now.isBefore(mAccessExpiresAt)) {
+      if (now.isBefore(mAccessExpiresAt!)) {
         return;
       }
     }
@@ -85,17 +85,17 @@ class RequestHandler {
   }
 
   Future<Map<String, String>> mSTKRequest(
-      {String mBusinessShortCode,
-      String nPassKey,
-      String mTransactionType,
-      String mTimeStamp,
-      double mAmount,
-      String partyA,
-      String partyB,
-      String mPhoneNumber,
-      Uri mCallBackURL,
-      String mAccountReference,
-      String mTransactionDesc}) async {
+      {required String mBusinessShortCode,
+      required String nPassKey,
+        required String mTransactionType,
+        required String mTimeStamp,
+        required double mAmount,
+        required String partyA,
+        required String partyB,
+        required String mPhoneNumber,
+        required Uri mCallBackURL,
+        required String mAccountReference,
+        String? mTransactionDesc}) async {
     ///set access token before starting the party.
     await setAccessToken();
 
@@ -113,7 +113,7 @@ class RequestHandler {
       "PhoneNumber": mPhoneNumber,
       "CallBackURL": mCallBackURL.toString(),
       "AccountReference": mAccountReference,
-      "TransactionDesc": mTransactionDesc,
+      "TransactionDesc": mTransactionDesc == null? "" : mTransactionDesc,
       "TransactionType": mTransactionType
     };
     final Map<String, String> result = new Map<String, String>();
