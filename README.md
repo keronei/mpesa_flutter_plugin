@@ -16,7 +16,7 @@ This plugin requires good understanding of the MPESA C2B concept, in as much as 
 you will also need to get things right in order to have it serve you right. With that said,
 
 These two places will help you get started on a better gear.
-1. [Safaricom API Tutorial ](http://peternjeru.co.ke/safdaraja/ui/#lnm_tutorial)
+1. [Safaricom API Tutorial ](https://peternjeru.co.ke/safdaraja/ui/#lnm_tutorial)
 2. [Safaricom Developer Portal Docs](https://developer.safaricom.co.ke/docs)
 
 
