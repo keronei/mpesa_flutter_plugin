@@ -29,15 +29,15 @@ class _MyAppState extends State<MyApp> {
       //Run it
       transactionInitialisation =
           await MpesaFlutterPlugin.initializeMpesaSTKPush(
-              businessShortCode: "730018",
-              transactionType: TransactionType.CustomerBuyGoodsOnline,
+              businessShortCode: "174379",
+              transactionType: TransactionType.CustomerPayBillOnline,
               amount: amount,
               partyA: userPhone,
-              partyB: "732631",
+              partyB: "174379",
               callBackURL: Uri(scheme: "https", host : "1234.1234.co.ke", path: "/1234.php"),
               accountReference: "shoe",
               phoneNumber: userPhone,
-              baseUri: Uri(scheme: "https", host: "api.safaricom.co.ke"),
+              baseUri: Uri(scheme: "https", host: "sandbox.safaricom.co.ke"),
               transactionDesc: "purchase",
               passKey: mPasskey);
 
@@ -126,7 +126,7 @@ class _MyAppState extends State<MyApp> {
                                 borderRadius: BorderRadius.circular(10.0)),
                             onPressed: () {
                               startCheckout(
-                                  userPhone: "254710xxx574",
+                                  userPhone: "254710529574",
                                   amount: itemsOnSale[index]["price"]);
                             },
                             child: Text("Checkout"))

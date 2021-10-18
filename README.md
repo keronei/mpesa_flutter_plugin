@@ -138,7 +138,7 @@ From here, it's now simpler to have it on your app.
                                           
                                           {
                                           "Name": "PhoneNumber",
-                                          "Value": 254710...574
+                                          "Value": 254710574
                                           }
                                       ]
               
