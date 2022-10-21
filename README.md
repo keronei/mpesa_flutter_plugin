@@ -134,11 +134,6 @@ From here, it's now simpler to have it on your app.
                                           {
                                           "Name": "TransactionDate",
                                           "Value": 20190606172857
-                                          },
-                                          
-                                          {
-                                          "Name": "PhoneNumber",
-                                          "Value": 254710574
                                           }
                                       ]
               

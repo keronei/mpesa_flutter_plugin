@@ -29,3 +29,9 @@ an exception thrown returns a string.
 ## 1.6.0-beta1
 * Added documentation for store till number support (thanks to [Dedan Kibere](https://github.com/ndungudedan))
 * Upgraded example app to use flutter embedding v2
+
+## 1.6.1
+* Implement use of prompt to collect phone number to be charged in the example.
+* Upgrade gradle version.
+* Remove phone number in payload received from callback in documentation - subject to be removed due to 
+  privacy policy.
