@@ -35,3 +35,6 @@ an exception thrown returns a string.
 * Upgrade gradle version.
 * Remove phone number in payload received from callback in documentation - subject to be removed due to 
   privacy policy.
+
+## 2.0.0
+* Fix minor Android issues on the example
