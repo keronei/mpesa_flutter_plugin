@@ -166,6 +166,9 @@ case failure of a transaction, this is a sample of your result:
 
 That's what in the docs in summary.
 
+## Note on web support
+- You may need to create a proxy that will make the API calls on your behalf.
+
 ## Plugin In Action
 
 <div style="text-align: center"><table><tr>
