@@ -182,7 +182,7 @@ class _MyAppState extends State<MyApp> {
             title: const Text('M-Pesa Number'),
             content: TextField(
               controller: _textFieldController,
-              decoration: const InputDecoration(hintText: "+254..."),
+              decoration: const InputDecoration(hintText: "254..."),
             ),
             actions: <Widget>[
               ElevatedButton(
