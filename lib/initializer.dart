@@ -7,7 +7,7 @@ class MpesaFlutterPlugin {
   static bool _consumerKeySet = false;
    static late String _mConsumerKeyVariable;
 
-  static setConsumerKey(String consumerKey) {
+  static void setConsumerKey(String consumerKey) {
     ///Value of Consumer Key MUST be set before the party starts.
     _mConsumerKeyVariable = consumerKey;
     _consumerKeySet = true;
@@ -16,7 +16,7 @@ class MpesaFlutterPlugin {
   static bool _consumerSecretSet = false;
   static late String _mConsumerSecretVariable;
 
-  static setConsumerSecret(String consumerSecret) {
+  static void setConsumerSecret(String consumerSecret) {
     ///ConsumerSecret MUST be set prior to placing
     ///token request, otherwise auth will not work
     _mConsumerSecretVariable = consumerSecret;
